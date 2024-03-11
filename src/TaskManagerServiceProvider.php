@@ -14,7 +14,7 @@ class TaskManagerServiceProvider extends PackageServiceProvider
             ->name('laravel-task-manager')
             ->hasConfigFile()
             ->hasViews()
-            ->hasMigration('create_laravel-task-manager_table')
+            ->hasMigration('create_tasks_table')
             ->hasCommand(TaskManagerCommand::class);
     }
 }
