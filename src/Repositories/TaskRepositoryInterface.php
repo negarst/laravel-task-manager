@@ -16,5 +16,5 @@ interface TaskRepositoryInterface
     // All possible task statuses are explicitely defined here.
     const STATUS_PENDING = 'pending';
     const STATUS_COMPLETED = 'completed';
-    const STATUS_IN_PROGRESS = 'in_progress';
+    const STATUS_OVERDUED = 'overdued';
 }
