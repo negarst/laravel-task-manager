@@ -12,7 +12,7 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
     }
 
      /**
-     * Get all tasks with a specific status for a specific user.
+     * Get all tasks with a specific status or no status for a specific user.
      *
      * @param int $userId
      * @param string $status
@@ -20,63 +20,71 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
      */
     public function allForUser($userId, $status)
     {
-        if($status == null) {
-            return $this->model->where('user_id', $userId)
-            ->get();
-        }
+        // Filter all of this user's tasks.
+        $query = $this->model->where('user_id', $userId);
 
         switch ($status) {
+            case null:
+                break;
             case self::STATUS_PENDING:
-                return $this->pendingTasksForUser($userId);
+                $query = $this->filterPendingTasks($query);
+                break;
             case self::STATUS_COMPLETED:
-                return $this->completedTasksForUser($userId);
+                $query = $this->filterCompletedTasks($query);
+                break;
             case self::STATUS_OVERDUE:
-                return $this->overduedTasksForUser($userId);
+                $query = $this->filterOverdueTasks($query);
+                break;
             default:
                 throw new \InvalidArgumentException("Invalid status: {$status}");
         }
-    }
-    
-    /**
-     * Get all pending tasks for a specific user.
-     *
-     * @param int $userId
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    public function pendingTasksForUser($userId)
-    {
-        return $this->model->where('user_id', $userId)
-            ->where('due_date', '>', now())
-            ->where('is_completed', false)
-            ->get();
+
+        $highlightedResult = $this->addHighlightField($query)->get();
+
+        return $highlightedResult;
     }
 
     /**
-     * Get all completed tasks for a specific user.
+     * Add the is_highlighted field to any given query.
      *
-     * @param int $userId
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @param Illuminate\Database\Query\Builder $query
+     * @return Illuminate\Database\Query\Builder
      */
-    public function completedTasksForUser($userId)
+    protected function addHighlightField($query)
     {
-        return $this->model->where('user_id', $userId)
-            ->where('is_completed', true)
-            ->get();
+        return $query->selectRaw('(due_date <= ?) as is_highlighted', [now()->addHours(24)]);
     }
 
     /**
-     * Get all overdued tasks for a specific user.
+     * Query all pending tasks.
      *
-     * @param int $userId
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @param Illuminate\Database\Query\Builder $query
+     * @return Illuminate\Database\Query\Builder
      */
-    public function overduedTasksForUser($userId)
+    public function filterPendingTasks($query)
     {
-        return $this->model->where('user_id', $userId)
-            ->where('due_date', '<', now())
-            ->where('is_completed', false)
-            ->get();
+        return $query->pending();
     }
 
+    /**
+     * Query all completed tasks.
+     *
+     * @param Illuminate\Database\Query\Builder $query
+     * @return Illuminate\Database\Query\Builder
+     */
+    public function filterCompletedTasks($query)
+    {
+        return $query->completed();
+    }
 
+    /**
+     * Query all overdued tasks.
+     *
+     * @param Illuminate\Database\Query\Builder $query
+     * @return Illuminate\Database\Query\Builder
+     */
+    public function filterOverdueTasks($query)
+    {
+        return $query->overdue();
+    }
 }
