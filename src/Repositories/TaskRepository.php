@@ -43,7 +43,7 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
                 throw new \InvalidArgumentException("Invalid status: {$status}");
         }
 
-        $highlightedResult = $this->addHighlightField($query)->get();
+        $highlightedResult = $this->addHighlightField($query)->paginate();
 
         return $highlightedResult;
     }
