@@ -19,7 +19,7 @@ class CreateTasksTable extends Migration
             $table->string('title');
             $table->string('description')->nullable();
             $table->bigInteger('attachment')->nullable();
-            $table->timestamp('due_date');
+            $table->timestamp('due_date')->index();
             $table->boolean('is_completed')->default(false);
             $table->timestamps();
         });
