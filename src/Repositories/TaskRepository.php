@@ -10,14 +10,18 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
     {
         parent::__construct($model);
     }
-
-     /**
-     * Get all tasks with a specific status or no status for a specific user.
+    
+    /**
+     * Add the is_highlighted field to any given query.
      *
-     * @param int $userId
-     * @param string $status
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @param Illuminate\Database\Query\Builder $query
+     * @return Illuminate\Database\Query\Builder
      */
+    protected function addHighlightField($query)
+    {
+        return $query->selectRaw('(due_date <= ?) as is_highlighted', [now()->addHours(24)]);
+    }
+
     public function allForUser($userId, $status)
     {
         // Filter all of this user's tasks.
@@ -44,45 +48,16 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
         return $highlightedResult;
     }
 
-    /**
-     * Add the is_highlighted field to any given query.
-     *
-     * @param Illuminate\Database\Query\Builder $query
-     * @return Illuminate\Database\Query\Builder
-     */
-    protected function addHighlightField($query)
-    {
-        return $query->selectRaw('(due_date <= ?) as is_highlighted', [now()->addHours(24)]);
-    }
-
-    /**
-     * Query all pending tasks.
-     *
-     * @param Illuminate\Database\Query\Builder $query
-     * @return Illuminate\Database\Query\Builder
-     */
     public function filterPendingTasks($query)
     {
         return $query->pending();
     }
 
-    /**
-     * Query all completed tasks.
-     *
-     * @param Illuminate\Database\Query\Builder $query
-     * @return Illuminate\Database\Query\Builder
-     */
     public function filterCompletedTasks($query)
     {
         return $query->completed();
     }
 
-    /**
-     * Query all overdued tasks.
-     *
-     * @param Illuminate\Database\Query\Builder $query
-     * @return Illuminate\Database\Query\Builder
-     */
     public function filterOverdueTasks($query)
     {
         return $query->overdue();
