@@ -20,12 +20,17 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
      */
     public function allForUser($userId, $status)
     {
+        if($status == null) {
+            return $this->model->where('user_id', $userId)
+            ->get();
+        }
+
         switch ($status) {
             case self::STATUS_PENDING:
                 return $this->pendingTasksForUser($userId);
             case self::STATUS_COMPLETED:
                 return $this->completedTasksForUser($userId);
-            case self::STATUS_OVERDUED:
+            case self::STATUS_OVERDUE:
                 return $this->overduedTasksForUser($userId);
             default:
                 throw new \InvalidArgumentException("Invalid status: {$status}");
