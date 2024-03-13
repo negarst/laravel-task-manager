@@ -1,6 +1,6 @@
 <?php
 
-namespace Vendor\TaskManager\Models;
+namespace Negarst\TaskManager\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

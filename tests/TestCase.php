@@ -1,10 +1,10 @@
 <?php
 
-namespace Vendor\TaskManager\Tests;
+namespace Negarst\TaskManager\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Vendor\TaskManager\TaskManagerServiceProvider;
+use Negarst\TaskManager\TaskManagerServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -13,7 +13,7 @@ class TestCase extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Vendor\\TaskManager\\Database\\Factories\\'.class_basename($modelName).'Factory'
+            fn (string $modelName) => 'Negarst\\TaskManager\\Database\\Factories\\'.class_basename($modelName).'Factory'
         );
     }
 

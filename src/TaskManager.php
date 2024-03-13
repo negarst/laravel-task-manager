@@ -1,6 +1,6 @@
 <?php
 
-namespace Vendor\TaskManager;
+namespace Negarst\TaskManager;
 
 class TaskManager
 {

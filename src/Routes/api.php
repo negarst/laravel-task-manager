@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Vendor\TaskManager\Http\Controllers\TaskController;
+use Negarst\TaskManager\Http\Controllers\TaskController;
 
 Route::get('/tasks/{user_id}/{status}', [TaskController::class, 'index']);
 Route::post('/tasks', [TaskController::class, 'store']);

@@ -1,9 +1,9 @@
 <?php
 
-namespace Vendor\TaskManager\Http\Controllers;
+namespace Negarst\TaskManager\Http\Controllers;
 
-use Vendor\TaskManager\Http\Requests\StoreTaskRequest;
-use Vendor\TaskManager\Http\Requests\UpdateTaskRequest;
+use Negarst\TaskManager\Http\Requests\StoreTaskRequest;
+use Negarst\TaskManager\Http\Requests\UpdateTaskRequest;
 
 interface TaskControllerInterface
 {

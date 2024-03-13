@@ -52,8 +52,8 @@ php artisan vendor:publish --tag="laravel-task-manager-views"
 ## Usage
 
 ```php
-$taskManager = new Vendor\TaskManager();
-echo $taskManager->echoPhrase('Hello, Vendor!');
+$taskManager = new Negarst\TaskManager();
+echo $taskManager->echoPhrase('Hello, Negarst!');
 ```
 
 ## Testing

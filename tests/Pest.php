@@ -1,5 +1,5 @@
 <?php
 
-use Vendor\TaskManager\Tests\TestCase;
+use Negarst\TaskManager\Tests\TestCase;
 
 uses(TestCase::class)->in(__DIR__);

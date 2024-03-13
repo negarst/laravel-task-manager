@@ -1,6 +1,6 @@
 <?php
 
-namespace Vendor\TaskManager\Commands;
+namespace Negarst\TaskManager\Commands;
 
 use Illuminate\Console\Command;
 

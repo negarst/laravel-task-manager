@@ -1,6 +1,6 @@
 <?php
 
-// config for Vendor/TaskManager
+// config for Negarst/TaskManager
 return [
 
 ];

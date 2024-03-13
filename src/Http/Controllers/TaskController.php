@@ -1,11 +1,11 @@
 <?php
 
-namespace Vendor\TaskManager\Http\Controllers;
+namespace Negarst\TaskManager\Http\Controllers;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Vendor\TaskManager\Http\Requests\StoreTaskRequest;
-use Vendor\TaskManager\Http\Requests\UpdateTaskRequest;
-use Vendor\TaskManager\Repositories\TaskRepository;
+use Negarst\TaskManager\Http\Requests\StoreTaskRequest;
+use Negarst\TaskManager\Http\Requests\UpdateTaskRequest;
+use Negarst\TaskManager\Repositories\TaskRepository;
 
 class TaskController
 {

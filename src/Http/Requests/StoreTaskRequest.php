@@ -1,6 +1,6 @@
 <?php
 
-namespace Vendor\TaskManager\Http\Requests;
+namespace Negarst\TaskManager\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 

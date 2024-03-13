@@ -1,8 +1,8 @@
 {
     "name": "negarst/laravel-task-manager",
+    "version": "1.0.0",
     "description": "A task manager package for the Laravel framework enabling users to efficiently manage their tasks.",
     "keywords": [
-        "vendor",
         "laravel",
         "laravel-task-manager"
     ],
@@ -30,13 +30,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Vendor\\TaskManager\\": "src/",
-            "Vendor\\TaskManager\\Database\\Factories\\": "database/factories/"
+            "Negarst\\TaskManager\\": "src/",
+            "Negarst\\TaskManager\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Vendor\\TaskManager\\Tests\\": "tests/",
+            "Negarst\\TaskManager\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/"
         }
     },
@@ -68,10 +68,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Vendor\\TaskManager\\TaskManagerServiceProvider"
+                "Negarst\\TaskManager\\TaskManagerServiceProvider"
             ],
             "aliases": {
-                "TaskManager": "Vendor\\TaskManager\\Facades\\TaskManager"
+                "TaskManager": "Negarst\\TaskManager\\Facades\\TaskManager"
             }
         }
     },

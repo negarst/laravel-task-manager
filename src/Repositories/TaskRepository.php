@@ -1,8 +1,8 @@
 <?php
 
-namespace Vendor\TaskManager\Repositories;
+namespace Negarst\TaskManager\Repositories;
 
-use Vendor\TaskManager\Models\Task;
+use Negarst\TaskManager\Models\Task;
 
 class TaskRepository extends BaseRepository implements TaskRepositoryInterface
 {
