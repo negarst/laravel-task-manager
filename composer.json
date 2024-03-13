@@ -1,6 +1,6 @@
 {
     "name": "negarst/laravel-task-manager",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "A task manager package for the Laravel framework enabling users to efficiently manage their tasks.",
     "keywords": [
         "laravel",

@@ -1,23 +1,24 @@
 # A task manager package for the Laravel framework enabling users to efficiently manage their tasks.
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/negarst/laravel-task-manager.svg?style=flat-square)](https://packagist.org/packages/negarst/laravel-task-manager)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/negarst/laravel-task-manager/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/negarst/laravel-task-manager/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/negarst/laravel-task-manager/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/negarst/laravel-task-manager/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/negarst/laravel-task-manager.svg?style=flat-square)](https://packagist.org/packages/negarst/laravel-task-manager)
-
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
-
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/laravel-task-manager.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/laravel-task-manager)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
-
 ## Installation
+Hi, thank you for using the Laravel Task Management Package.
+Since this package is not published in the packagist, you can only use it locally.
 
-You can install the package via composer:
+First, clone the package from the [github repository](https://github.com/negarst/laravel-task-manager).
+
+
+In your own laravel application add this part to your composer.json file. Note that you should replace the _PACKAGE-DIRECTORY_ according to your own directory where you cloned the package.
+
+ ```php
+  "repositories": [
+    {
+      "type": "path",
+      "url": "_PACKAGE-DIRECTORY_/negarst/laravel-task-manager"
+    }
+  ]
+```
+
+Now, you can install the package via composer:
 
 ```bash
 composer require negarst/laravel-task-manager
@@ -26,58 +27,111 @@ composer require negarst/laravel-task-manager
 You can publish and run the migrations with:
 
 ```bash
-php artisan vendor:publish --tag="laravel-task-manager-migrations"
+php artisan vendor:publish --tag="task-manager-migrations"
 php artisan migrate
 ```
 
 You can publish the config file with:
 
 ```bash
-php artisan vendor:publish --tag="laravel-task-manager-config"
+php artisan vendor:publish --tag="task-manager-config"
 ```
 
 This is the contents of the published config file:
 
 ```php
 return [
+    'roles' => [
+        'admin' => [
+            'create_task' => true,
+            'see_task' => true,
+            'list_tasks' => true,
+            'update_task' => true,
+            'delete_task' => true,
+        ],
+        'manager' => [
+            'create_task' => true,
+            'see_task' => true,
+            'list_tasks' => true,
+            'update_task' => true,
+            'delete_task' => false, // Managers cannot delete tasks
+        ],
+        'user' => [
+            'create_task' => true,
+            'see_task' => true,
+            'list_tasks' => false,
+            'update_task' => false, // Users cannot update tasks
+            'delete_task' => false, // Users cannot delete tasks
+        ],
+        'owner' => [
+            'create_task' => true,
+            'see_task' => true,
+            'list_tasks' => true,
+            'update_task' => true,
+            'delete_task' => true,
+        ],
+    ],
+    'mail' => [
+        'mailgun'=> [
+            'domain' => 'domain-name',
+            'secret' => 'secret-parameter'
+    ]],
 ];
 ```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="laravel-task-manager-views"
-```
-
 ## Usage
-
+There are six endpoints for task management by your users:
 ```php
-$taskManager = new Negarst\TaskManager();
-echo $taskManager->echoPhrase('Hello, Negarst!');
+Route::middleware('access.control:list_tasks')
+->get('/tasks/list/{status}');
+Route::middleware('access.control:list_tasks')
+->get('/tasks/filter/{user_id}/{status}');
+Route::middleware('access.control:create_task')
+->post('/tasks');
+Route::middleware('access.control:see_task')
+->get('/tasks/{id}');
+Route::middleware('access.control:update_task')
+->put('/tasks/{id}');
+Route::middleware('access.control:delete_task')
+->delete('/tasks/{id}');
+```
+You should customize the published config file roles accordingly. Also, you should set the mailgun credentials there for notification purposes.
+
+You should include these parameters in your post request:
+```php
+[
+    'title' => 'required|string|max:255',
+    'description' => 'sometimes|string|max:512',
+    'due_date' => 'required|date',
+    'user_id' => 'required|integer',
+    'user_email' => 'required|email',
+    'user_role' => 'required|string',
+    'attachment' => 'sometimes|string'
+    'is_completed' => 'sometimes|boolean'
+]
 ```
 
+And include these parameters in your put request:
+```php
+[
+    'title' => 'sometimes|string|max:255',
+    'description' => 'sometimes|string|max:512',
+    'due_date' => 'sometimes|date',
+    'user_id' => 'sometimes|integer',
+    'user_email' => 'sometimes|email',
+    'user_role' => 'sometimes|string',
+    'attachment' => 'sometimes|string',
+    'is_completed' => 'sometimes|boolean'
+]
+```
 ## Testing
 
 ```bash
 composer test
 ```
 
-## Changelog
-
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
-
-## Contributing
-
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
-
-## Security Vulnerabilities
-
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
-
 ## Credits
 
 - [Negar Ebrahimi](https://github.com/negarst)
-- [All Contributors](../../contributors)
 
 ## License
 

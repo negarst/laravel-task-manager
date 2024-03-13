@@ -27,8 +27,8 @@ return [
             'create_task' => true,
             'see_task' => true,
             'list_tasks' => true,
-            'update_task' => true, // Users cannot update tasks
-            'delete_task' => true, // Users cannot delete tasks
+            'update_task' => true,
+            'delete_task' => true,
         ],
     ],
     'mail' => [

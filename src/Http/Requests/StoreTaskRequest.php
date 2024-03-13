@@ -19,6 +19,7 @@ class StoreTaskRequest extends FormRequest
             'due_date' => 'required|date',
             'user_id' => 'required|integer',
             'user_email' => 'required|email',
+            'user_role' => 'required|string',
             'attachment' => 'sometimes|string', //???
             'is_completed' => 'sometimes|boolean'
         ];
