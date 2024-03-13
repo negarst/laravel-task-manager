@@ -18,6 +18,7 @@ class UpdateTaskRequest extends FormRequest
             'description' => 'sometimes|string|max:512',
             'due_date' => 'sometimes|date',
             'user_id' => 'sometimes|integer',
+            'user_email' => 'sometimes|email',
             'attachment' => 'sometimes|string', //???
             'is_completed' => 'sometimes|boolean'
         ];

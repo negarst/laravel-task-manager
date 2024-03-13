@@ -31,4 +31,9 @@ class Task extends Model
         return $query->where('due_date', '<', now())
         ->where('is_completed', false);
     }
+
+    public function owner()
+    {
+        return $this->belongsTo(Owner::class, 'user_id');
+    }
 }

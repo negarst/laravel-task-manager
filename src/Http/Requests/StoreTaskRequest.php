@@ -18,6 +18,7 @@ class StoreTaskRequest extends FormRequest
             'description' => 'sometimes|string|max:512',
             'due_date' => 'required|date',
             'user_id' => 'required|integer',
+            'user_email' => 'required|email',
             'attachment' => 'sometimes|string', //???
             'is_completed' => 'sometimes|boolean'
         ];

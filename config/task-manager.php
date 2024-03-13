@@ -31,4 +31,9 @@ return [
             'delete_task' => true, // Users cannot delete tasks
         ],
     ],
+    'mail' => [
+        'mailgun'=> [
+            'domain' => 'domain-name',
+            'secret' => 'secret-parameter'
+    ]],
 ];
