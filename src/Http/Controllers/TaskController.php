@@ -22,6 +22,12 @@ class TaskController
         return response()->json(['tasks' => $tasks]);
     }
 
+    public function filter($status)
+    {
+        $tasks = $this->taskRepository->filterAll($status);
+        return response()->json(['tasks' => $tasks]);
+    }
+
     public function store(StoreTaskRequest $request)
     {
         $validated = $request->validated();
@@ -32,12 +38,10 @@ class TaskController
 
     public function show($id)
     {
-        try 
-        {
+        try {
             $task = $this->taskRepository->find($id);
         }
-        catch(ModelNotFoundException $e) 
-        {
+        catch(ModelNotFoundException $e) {
             throw new \Exception("Task with ID {$id} not found.");
         }
         
@@ -48,12 +52,10 @@ class TaskController
     {
         $validated = $request->validated();
 
-        try 
-        {
+        try {
             $task = $this->taskRepository->update($id, $validated);
         }
-        catch(ModelNotFoundException $e) 
-        {
+        catch(ModelNotFoundException $e) {
             throw new \Exception("Task with ID {$id} not found.");
         }
 
@@ -62,12 +64,10 @@ class TaskController
 
     public function destroy($id)
     {
-        try 
-        {
+        try {
             $this->taskRepository->delete($id);
         } 
-        catch(ModelNotFoundException $e)
-        {
+        catch(ModelNotFoundException $e) {
             throw new \Exception("Task with ID {$id} not found.");
         }
 

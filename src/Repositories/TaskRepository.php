@@ -22,11 +22,8 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
         return $query->selectRaw('(due_date <= ?) as is_highlighted', [now()->addHours(24)]);
     }
 
-    public function allForUser($userId, $status)
+    protected function filterQueryStatus($query, $status) 
     {
-        // Filter all of this user's tasks.
-        $query = $this->model->where('user_id', $userId);
-
         switch ($status) {
             case null:
                 break;
@@ -42,8 +39,38 @@ class TaskRepository extends BaseRepository implements TaskRepositoryInterface
             default:
                 throw new \InvalidArgumentException("Invalid status: {$status}");
         }
+        return $query;
+    }
 
-        $highlightedResult = $this->addHighlightField($query)->paginate();
+    public function allForUser($userId, $status)
+    {
+        // Filter all of this user's tasks.
+        $query = $this->model->where('user_id', $userId);
+
+        try {
+            $filteredQuery = $this->filterQueryStatus($query, $status);
+        }
+        catch(\InvalidArgumentException $e) {
+            throw new \InvalidArgumentException("Invalid status: {$status}");
+        }
+
+        $highlightedResult = $this->addHighlightField($filteredQuery)->paginate();
+
+        return $highlightedResult;
+    }
+
+    public function filterAll($status)
+    {
+        $query = $this->model->all();
+
+        try {
+            $filteredQuery = $this->filterQueryStatus($query, $status);
+        }
+        catch(\InvalidArgumentException $e) {
+            throw new \InvalidArgumentException("Invalid status: {$status}");
+        }
+
+        $highlightedResult = $this->addHighlightField($filteredQuery)->paginate();
 
         return $highlightedResult;
     }

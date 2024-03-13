@@ -21,6 +21,8 @@ class TaskManagerServiceProvider extends PackageServiceProvider
 
     public function register()
     {
+        parent::register(); // Call the parent register() method to properly initialize $package
+
         $this->app->singleton(TaskRepository::class, function ($app) {
             return new TaskRepository(new Task());
         });
