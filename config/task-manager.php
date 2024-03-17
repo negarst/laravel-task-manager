@@ -35,5 +35,6 @@ return [
         'mailgun'=> [
             'domain' => 'domain-name',
             'secret' => 'secret-parameter'
-    ]],
+        ]
+    ],
 ];

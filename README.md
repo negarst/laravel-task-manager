@@ -105,7 +105,7 @@ You should include these parameters in your post request:
     'user_id' => 'required|integer',
     'user_email' => 'required|email',
     'user_role' => 'required|string',
-    'attachment' => 'sometimes|string'
+    'attachment' => 'sometimes|string',
     'is_completed' => 'sometimes|boolean'
 ]
 ```

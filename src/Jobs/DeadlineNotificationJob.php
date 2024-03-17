@@ -25,13 +25,13 @@ class DeadlineNotificationJob implements ShouldQueue
     public function handle()
     {
 
-        $tasks = Task::with('user')
+        $tasks = Task::with('owner')
             ->where('due_date', '>', now())
             ->where('due_date', '<', $this->deadline)
             ->get();
 
         // Extract email addresses of users who own these tasks
-        $userEmails = $tasks->pluck('user.email');
+        $userEmails = $tasks->pluck('owner.email');
 
         $uniqueUserEmails = $userEmails->unique();
 

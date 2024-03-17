@@ -5,15 +5,18 @@ namespace Negarst\TaskManager\Http\Controllers;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Negarst\TaskManager\Http\Requests\StoreTaskRequest;
 use Negarst\TaskManager\Http\Requests\UpdateTaskRequest;
+use Negarst\TaskManager\Repositories\OwnerRepository;
 use Negarst\TaskManager\Repositories\TaskRepository;
 
 class TaskController
 {
     protected $taskRepository;
+    protected $ownerRepository;
 
-    public function __construct(TaskRepository $taskRepository)
+    public function __construct(TaskRepository $taskRepository, OwnerRepository $ownerRepository)
     {
         $this->taskRepository = $taskRepository;
+        $this->ownerRepository = $ownerRepository;
     }
 
     public function index($user_id, $status)
@@ -31,6 +34,8 @@ class TaskController
     public function store(StoreTaskRequest $request)
     {
         $validated = $request->validated();
+
+        $this->ownerRepository->createOrUpdate($validated['user_id'], $validated['user_email']);
 
         $task = $this->taskRepository->create($validated);
         return response()->json(['task' => $task], 201);
@@ -54,6 +59,7 @@ class TaskController
 
         try {
             $task = $this->taskRepository->update($id, $validated);
+            $this->ownerRepository->createOrUpdate($validated['user_id'], $validated['user_email']);
         }
         catch(ModelNotFoundException $e) {
             throw new \Exception("Task with ID {$id} not found.");
